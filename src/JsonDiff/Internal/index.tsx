@@ -47,6 +47,9 @@ export type DiffOptions = JsonDiffTypes.DiffOptions & {
   // Defaults to:
   // (n, max) => (n < max ? [...Array(n)].map(() => '...') : `... (${n} entries)`)
   renderElision?: (elisionCount: number, maxElisions: number) => string | string[];
+
+  // This allows to reformat the keys and values before rendering
+  format?: (color: string, indent: string, key: string, value: string | number | boolean | ArrayConstructor | ObjectConstructor) => JSX.Element | false;
 };
 
 export type JsonValue =

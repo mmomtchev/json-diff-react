@@ -8,7 +8,7 @@ import React from 'react';
 
 const subcolorizeToCallback = function (options, key, diff, output, color, indent) {
   let subvalue;
-  const prefix = key ? `${key}: ` : '';
+  let prefix = key ? `${key}: ` : '';
   const subindent = indent + '  ';
 
   const maxElisions = options.maxElisions === undefined ? Infinity : options.maxElisions;
@@ -34,7 +34,8 @@ const subcolorizeToCallback = function (options, key, diff, output, color, inden
         subcolorizeToCallback(options, key, diff.__old, output, '-', indent);
         return subcolorizeToCallback(options, key, diff.__new, output, '+', indent);
       } else {
-        output(color, `${indent}${prefix}{`);
+        const format = !!options.format && options.format(color, indent, key, Object);
+        output(color, typeof format === 'object' ? format : `${indent}${prefix}{`);
 
         // Elisions are added in “json-diff” module depending on the option.
         let elisionCount = 0;
@@ -68,7 +69,8 @@ const subcolorizeToCallback = function (options, key, diff, output, color, inden
       }
 
     case 'array': {
-      output(color, `${indent}${prefix}[`);
+      const format = !!options.format && options.format(color, indent, key, Array);
+      output(color, typeof format === 'object' ? format : `${indent}${prefix}[`);
 
       let looksLikeDiff = true;
       for (const item of diff) {
@@ -118,7 +120,8 @@ const subcolorizeToCallback = function (options, key, diff, output, color, inden
 
     default:
       if (diff === 0 || diff === null || diff === false || diff === '' || diff) {
-        return output(color, indent + prefix + JSON.stringify(diff));
+        const format = !!options.format && options.format(color, indent, key, diff);
+        output(color, typeof format === 'object' ? format : indent + prefix + JSON.stringify(diff));
       }
   }
 };

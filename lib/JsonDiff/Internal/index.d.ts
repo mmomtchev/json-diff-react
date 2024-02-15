@@ -15,6 +15,7 @@ export type DiffOptions = JsonDiffTypes.DiffOptions & {
     excludeKeys?: string[];
     showElisionsForObjects?: boolean;
     renderElision?: (elisionCount: number, maxElisions: number) => string | string[];
+    format?: (color: string, indent: string, key: string, value: string | number | boolean | ArrayConstructor | ObjectConstructor) => JSX.Element | false;
 };
 export type JsonValue = {
     [x: string]: JsonValue;
