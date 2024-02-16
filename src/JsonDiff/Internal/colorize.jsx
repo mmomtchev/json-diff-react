@@ -121,7 +121,7 @@ const subcolorizeToCallback = function (options, key, diff, output, color, inden
     default:
       if (diff === 0 || diff === null || diff === false || diff === '' || diff) {
         const format = !!options.format && options.format(color, indent, key, diff);
-        output(color, typeof format === 'object' ? format : indent + prefix + JSON.stringify(diff));
+        return output(color, typeof format === 'object' ? format : indent + prefix + JSON.stringify(diff));
       }
   }
 };
